@@ -1,5 +1,3 @@
-let cookieName = "";
-let cookieKey = "";
 const chavy = init();
 
 function init() {
