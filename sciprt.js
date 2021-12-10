@@ -2,13 +2,8 @@ const cookieName = "bilibili";
 const cookieKey = "chavy_cookie_bilibili";
 const chavy = init();
 const cookieVal = $request.headers["Cookie"];
+chavy.setdata('', cookieKey)
 chavy.log(cookieVal);
-if (cookieVal) {
-  if (chavy.setdata(cookieVal, cookieKey)) {
-    chavy.msg(`${cookieName}`, "获取Cookie: 成功", "");
-    chavy.log(`[${cookieName}] 获取Cookie: 成功, cookie: ${cookieVal}`);
-  }
-}
 function init() {
   isSurge = () => {
     return undefined === this.$httpClient ? false : true;
