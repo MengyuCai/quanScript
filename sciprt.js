@@ -1,8 +1,8 @@
 const cookieName = "bilibili";
 const cookieKey = "chavy_cookie_bilibili";
 const chavy = init();
-const cookieVal = $request.headers["Cookie"];
 chavy.setdata('', cookieKey)
+const cookieVal = $request.headers["Cookie"];
 chavy.log(cookieVal);
 function init() {
   isSurge = () => {
