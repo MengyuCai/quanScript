@@ -100,6 +100,7 @@ async function unsubscribeGoods() {
     if (followGoods.iRet === '0') {
         if (followGoods.totalNum > 0) {
             for (let item of followGoods['data']) {
+                console.log('当前商品信息：',item);
                 console.log(`是否匹配：：${item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, ''))}`)
                 if (stopGoods && item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, '')) > -1) {
                     console.log(`匹配到了您设定的商品--${stopGoods}，不在进行取消关注商品`)
@@ -200,6 +201,7 @@ async function unsubscribeShops() {
     if (followShops.iRet === '0') {
         if (followShops.totalNum > 0) {
             for (let item of followShops.data) {
+                console.log('当前店铺信息：',item);
                 if (stopShop && (item.shopName && item.shopName.indexOf(stopShop.replace(/\s*/g, '')) > -1)) {
                     console.log(`匹配到了您设定的店铺--${item.shopName}，不在进行取消关注店铺`)
                     continue;
