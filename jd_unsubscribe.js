@@ -97,6 +97,7 @@ async function goodsMain() {
 }
 async function unsubscribeGoods() {
     let followGoods = await getFollowGoods();
+    console.log('关注的',followGoods);
     if (followGoods.iRet === '0') {
         if (followGoods.totalNum > 0) {
             for (let item of followGoods['data']) {
@@ -198,6 +199,7 @@ async function shopMain() {
 }
 async function unsubscribeShops() {
     let followShops = await getFollowShops();
+    console.log('关注的',followShops);
     if (followShops.iRet === '0') {
         if (followShops.totalNum > 0) {
             for (let item of followShops.data) {
