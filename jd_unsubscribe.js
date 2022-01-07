@@ -213,7 +213,7 @@ async function unsubscribeShops() {
     if (followShops.iRet === '0') {
         if (followShops.totalNum > 0) {
             for (let item of followShops.data) {
-                if (item.followDate < time.getTime()) {
+                if (item.followDate < currentTime.getTime()) {
                     console.log('今天之前关注的，不取消关注')
                     continue;
                 }
