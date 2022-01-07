@@ -8,7 +8,7 @@
 脚本兼容: Quantumult X, Surge, Loon, JSBox, Node.js, 小火箭
  */
 const $ = new Env('取关京东店铺和商品');
-//Node.js用户请在jdCookie.js处填写京东ck;
+// Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 //IOS等用户直接用NobyDa的jd cookie
@@ -18,7 +18,7 @@ if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
     })
-    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => {};
+    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => { };
 } else {
     cookiesArr = [$.getdata('CookieJD'), $.getdata('CookieJD2'), ...jsonParse($.getdata('CookiesJD') || "[]").map(item => item.cookie)].filter(item => !!item);
 }
@@ -30,10 +30,8 @@ let stopGoods1 = $.getdata('jdUnsubscribeStopGoods1') || ''; // 遇到此商品i
 let stopShop = $.getdata('jdUnsubscribeStopShop') || ''; //遇到此店铺不再进行取关，此处内容请尽量从头开始输入店铺名称
 let stopShop1 = $.getdata('jdUnsubscribeStopShop1') || ''; //遇到此店铺id不再进行取关
 // 获取当前时间
-let time = new Date()
-time.setHours(0)
-time.setMinutes(0)
-time.setSeconds(0)
+let currentTime = new Date()
+currentTime.setHours(0, 0, 0)
 
 const JD_API_HOST = 'https://wq.jd.com/fav';
 !(async () => {
@@ -66,7 +64,7 @@ const JD_API_HOST = 'https://wq.jd.com/fav';
         }
     }
 })()
-.catch((e) => {
+    .catch((e) => {
         $.log('', `❌ ${$.name}, 失败! 原因: ${e}!`, '')
     })
     .finally(() => {
@@ -108,12 +106,12 @@ async function unsubscribeGoods() {
     if (followGoods.iRet === '0') {
         if (followGoods.totalNum > 0) {
             for (let item of followGoods['data']) {
-                if(item.favTime<time.getTime()){
+                if (item.favTime < currentTime.getTime()) {
                     console.log('今天之前关注的，不取消关注')
                     continue;
                 }
                 console.log(`是否匹配：：${item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, ''))}`)
-                if ((stopGoods&&(item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, '')) > -1) || (stopGoods1 && item.commId.indexOf(stopGoods1.replace(/\ufffc|\s*/g, ''))>-1)) {
+                if ((stopGoods && (item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, '')) > -1)) || (stopGoods1 && item.commId.indexOf(stopGoods1.replace(/\ufffc|\s*/g, '')) > -1)) {
                     console.log(`匹配到了您设定的商品--${stopGoods}，不在进行取消关注商品`)
                     continue;
                 }
@@ -209,15 +207,15 @@ async function shopMain() {
 }
 async function unsubscribeShops() {
     let followShops = await getFollowShops();
-    console.log('关注的',followShops);
+    console.log('关注的', followShops);
     if (followShops.iRet === '0') {
         if (followShops.totalNum > 0) {
             for (let item of followShops.data) {
-                if(item.followDate < time.getTime()){
+                if (item.followDate < time.getTime()) {
                     console.log('今天之前关注的，不取消关注')
                     continue;
                 }
-                console.log('当前店铺信息：',JSON.stringify(item));
+                console.log('当前店铺信息：', JSON.stringify(item));
                 if ((stopShop && item.shopName && item.shopName.indexOf(stopShop.replace(/\s*/g, '')) > -1) || (stopShop1 && item.shopId && item.shopId.indexOf(stopShop1.replace(/\s*/g, '')) > -1)) {
                     console.log(`匹配到了您设定的店铺--${item.shopName}，不在进行取消关注店铺`)
                     continue;
@@ -432,7 +430,7 @@ function Env(t, e) {
             const i = this.getdata(t);
             if (i) try {
                 s = JSON.parse(this.getdata(t))
-            } catch {}
+            } catch { }
             return s
         }
         setjson(t, e) {
@@ -544,7 +542,7 @@ function Env(t, e) {
         initGotEnv(t) {
             this.got = this.got ? this.got : require("got"), this.cktough = this.cktough ? this.cktough : require("tough-cookie"), this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar))
         }
-        get(t, e = (() => {})) {
+        get(t, e = (() => { })) {
             t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
                 "X-Surge-Skip-Scripting": !1
             })), $httpClient.get(t, (t, s, i) => {
@@ -594,7 +592,7 @@ function Env(t, e) {
                 e(s, i, i && i.body)
             }))
         }
-        post(t, e = (() => {})) {
+        post(t, e = (() => { })) {
             if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
                 "X-Surge-Skip-Scripting": !1
             })), $httpClient.post(t, (t, s, i) => {
