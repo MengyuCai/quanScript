@@ -110,9 +110,12 @@ async function unsubscribeGoods() {
                     console.log('今天之前关注的，不取消关注')
                     continue;
                 }
-                console.log(`是否匹配：：${item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, ''))}`)
-                if ((stopGoods && (item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, '')) > -1)) || (stopGoods1 && item.commId.indexOf(stopGoods1.replace(/\ufffc|\s*/g, '')) > -1)) {
-                    console.log(`匹配到了您设定的商品--${stopGoods}，不在进行取消关注商品`)
+                if (stopGoods1 && item.commId.indexOf(stopGoods1.replace(/\ufffc|\s*/g, '')) > -1) {
+                    console.log(`匹配到了您设定的商品id--${item.commId}，不在进行取消关注商品`)
+                    continue;
+                }
+                if(stopGoods && (item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, '')) > -1)){
+                    console.log(`匹配到了您设定的商品名称--${item.commTitle}, 不在进行取消关注商品`)
                     continue;
                 }
                 let res = await unsubscribeGoodsFun(item.commId);
@@ -207,7 +210,6 @@ async function shopMain() {
 }
 async function unsubscribeShops() {
     let followShops = await getFollowShops();
-    console.log('关注的', followShops);
     if (followShops.iRet === '0') {
         if (followShops.totalNum > 0) {
             for (let item of followShops.data) {
@@ -215,9 +217,12 @@ async function unsubscribeShops() {
                     console.log('今天之前关注的，不取消关注')
                     continue;
                 }
-                console.log('当前店铺信息：', JSON.stringify(item));
-                if ((stopShop && item.shopName && item.shopName.indexOf(stopShop.replace(/\s*/g, '')) > -1) || (stopShop1 && item.shopId && item.shopId.indexOf(stopShop1.replace(/\s*/g, '')) > -1)) {
-                    console.log(`匹配到了您设定的店铺--${item.shopName}，不在进行取消关注店铺`)
+                if(stopShop1 && item.shopId && item.shopId.indexOf(stopShop1.replace(/\s*/g, '')) > -1){
+                    console.log(`匹配到了您设定的店铺id--${item.shopId}，不在进行取消关注店铺`)
+                    continue;
+                }
+                if (stopShop && item.shopName && item.shopName.indexOf(stopShop.replace(/\s*/g, '')) > -1) {
+                    console.log(`匹配到了您设定的店铺名称--${item.shopName}，不在进行取消关注店铺`)
                     continue;
                 }
                 let res = await unsubscribeShopsFun(item.shopId);
