@@ -26,7 +26,15 @@ const jdNotify = $.getdata('jdUnsubscribeNotify'); //是否关闭通知，false�
 let goodPageSize = $.getdata('jdUnsubscribePageSize') || 20; // 运行一次取消多全部已关注的商品。数字0表示不取关任何商品
 let shopPageSize = $.getdata('jdUnsubscribeShopPageSize') || 20; // 运行一次取消全部已关注的店铺。数字0表示不取关任何店铺
 let stopGoods = $.getdata('jdUnsubscribeStopGoods') || ''; //遇到此商品不再进行取关，此处内容需去商品详情页（自营处）长按拷贝商品信息
+let stopGoods1 = $.getdata('jdUnsubscribeStopGoods1') || ''; // 遇到此商品id不再进行取关，此处内容需去商品详情页查看
 let stopShop = $.getdata('jdUnsubscribeStopShop') || ''; //遇到此店铺不再进行取关，此处内容请尽量从头开始输入店铺名称
+let stopShop1 = $.getdata('jdUnsubscribeStopShop1') || ''; //遇到此店铺id不再进行取关
+// 获取当前时间
+let time = new Date()
+time.setHours(0)
+time.setMinutes(0)
+time.setSeconds(0)
+
 const JD_API_HOST = 'https://wq.jd.com/fav';
 !(async () => {
     if (!cookiesArr[0]) {
@@ -100,9 +108,12 @@ async function unsubscribeGoods() {
     if (followGoods.iRet === '0') {
         if (followGoods.totalNum > 0) {
             for (let item of followGoods['data']) {
-                console.log('当前商品信息：',JSON.stringify(item));
+                if(item.favTime<time.getTime()){
+                    console.log('今天之前关注的，不取消关注')
+                    continue;
+                }
                 console.log(`是否匹配：：${item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, ''))}`)
-                if (stopGoods && item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, '')) > -1) {
+                if ((stopGoods&&(item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, '')) > -1) || (stopGoods1 && item.commId.indexOf(stopGoods1.replace(/\ufffc|\s*/g, ''))>-1)) {
                     console.log(`匹配到了您设定的商品--${stopGoods}，不在进行取消关注商品`)
                     continue;
                 }
@@ -202,8 +213,12 @@ async function unsubscribeShops() {
     if (followShops.iRet === '0') {
         if (followShops.totalNum > 0) {
             for (let item of followShops.data) {
+                if(item.followDate < time.getTime()){
+                    console.log('今天之前关注的，不取消关注')
+                    continue;
+                }
                 console.log('当前店铺信息：',JSON.stringify(item));
-                if (stopShop && (item.shopName && item.shopName.indexOf(stopShop.replace(/\s*/g, '')) > -1)) {
+                if ((stopShop && item.shopName && item.shopName.indexOf(stopShop.replace(/\s*/g, '')) > -1) || (stopShop1 && item.shopId && item.shopId.indexOf(stopShop1.replace(/\s*/g, '')) > -1)) {
                     console.log(`匹配到了您设定的店铺--${item.shopName}，不在进行取消关注店铺`)
                     continue;
                 }
