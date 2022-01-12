@@ -110,11 +110,11 @@ async function unsubscribeGoods() {
 //                     console.log('今天之前关注的，不取消关注')
 //                     continue;
 //                 }
-                if (stopGoods1 && item.commId.indexOf(stopGoods1.replace(/\ufffc|\s*/g, '')) > -1) {
+                if (stopGoods1 && (stopGoods1.replace(/\ufffc|\s*/g, '').indexOf(item.commId) > -1)) {
                     console.log(`匹配到了您设定的商品id--${item.commId}，不在进行取消关注商品`)
                     continue;
                 }
-                if(stopGoods && (item.commTitle.indexOf(stopGoods.replace(/\ufffc|\s*/g, '')) > -1)){
+                if(stopGoods && (stopGoods.replace(/\ufffc|\s*/g, '').indexOf(item.commTitle) > -1)){
                     console.log(`匹配到了您设定的商品名称--${item.commTitle}, 不在进行取消关注商品`)
                     continue;
                 }
@@ -217,11 +217,11 @@ async function unsubscribeShops() {
 //                     console.log('今天之前关注的，不取消关注')
 //                     continue;
 //                 }
-                if(stopShop1 && item.shopId && item.shopId.indexOf(stopShop1.replace(/\s*/g, '')) > -1){
+                if(stopShop1 && (stopShop1.replace(/\s*/g, '').indexOf(item.shopId) > -1)){
                     console.log(`匹配到了您设定的店铺id--${item.shopId}，不在进行取消关注店铺`)
                     continue;
                 }
-                if (stopShop && item.shopName && item.shopName.indexOf(stopShop.replace(/\s*/g, '')) > -1) {
+                if (stopShop && (stopShop.replace(/\s*/g, '').indexOf(item.shopName) > -1)) {
                     console.log(`匹配到了您设定的店铺名称--${item.shopName}，不在进行取消关注店铺`)
                     continue;
                 }
