@@ -106,10 +106,10 @@ async function unsubscribeGoods() {
     if (followGoods.iRet === '0') {
         if (followGoods.totalNum > 0) {
             for (let item of followGoods['data']) {
-                if (item.favTime < currentTime.getTime()) {
-                    console.log('今天之前关注的，不取消关注')
-                    continue;
-                }
+//                 if (item.favTime < currentTime.getTime()) {
+//                     console.log('今天之前关注的，不取消关注')
+//                     continue;
+//                 }
                 if (stopGoods1 && item.commId.indexOf(stopGoods1.replace(/\ufffc|\s*/g, '')) > -1) {
                     console.log(`匹配到了您设定的商品id--${item.commId}，不在进行取消关注商品`)
                     continue;
@@ -213,10 +213,10 @@ async function unsubscribeShops() {
     if (followShops.iRet === '0') {
         if (followShops.totalNum > 0) {
             for (let item of followShops.data) {
-                if (item.followDate < currentTime.getTime()) {
-                    console.log('今天之前关注的，不取消关注')
-                    continue;
-                }
+//                 if (item.followDate < currentTime.getTime()) {
+//                     console.log('今天之前关注的，不取消关注')
+//                     continue;
+//                 }
                 if(stopShop1 && item.shopId && item.shopId.indexOf(stopShop1.replace(/\s*/g, '')) > -1){
                     console.log(`匹配到了您设定的店铺id--${item.shopId}，不在进行取消关注店铺`)
                     continue;
