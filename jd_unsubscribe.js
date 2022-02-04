@@ -31,6 +31,7 @@ let stopShop = $.getdata('jdUnsubscribeStopShop') || ''; //遇到此店铺不再
 let stopShop1 = $.getdata('jdUnsubscribeStopShop1') || ''; //遇到此店铺id不再进行取关
 // 获取当前时间
 let currentTime = new Date()
+let currentTime = currentTime.setDate( currentTime.getDate() - 7 );
 currentTime.setHours(0, 0, 0)
 
 const JD_API_HOST = 'https://wq.jd.com/fav';
