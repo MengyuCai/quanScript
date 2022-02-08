@@ -22,10 +22,10 @@ if ($.isNode()) {
   ].filter((item) => !!item);
 }
 const jdNotify = true; //是否关闭通知，false打开通知推送，true关闭通知推送
-let stopGoods = $.getdata("jdUnsubscribeStopGoods") || ""; //遇到此商品不再进行取关，此处内容需去商品详情页（自营处）长按拷贝商品信息
-let stopGoods1 = $.getdata("jdUnsubscribeStopGoods1") || ""; // 遇到此商品id不再进行取关，此处内容需去商品详情页查看
-let stopShop = $.getdata("jdUnsubscribeStopShop") || ""; //遇到此店铺不再进行取关，此处内容请尽量从头开始输入店铺名称
-let stopShop1 = $.getdata("jdUnsubscribeStopShop1") || ""; //遇到此店铺id不再进行取关
+let stopGoods = ""; //遇到此商品不再进行取关，此处内容需去商品详情页（自营处）长按拷贝商品信息  $.getdata("jdUnsubscribeStopGoods") 
+let stopGoods1 = ""; // 遇到此商品id不再进行取关，此处内容需去商品详情页查看  $.getdata("jdUnsubscribeStopGoods1") || 
+let stopShop = ""; //遇到此店铺不再进行取关，此处内容请尽量从头开始输入店铺名称  $.getdata("jdUnsubscribeStopShop") || 
+let stopShop1 =  ""; //遇到此店铺id不再进行取关  $.getdata("jdUnsubscribeStopShop1") ||
 
 const JD_API_HOST = "https://wq.jd.com/fav";
 !(async () => {
@@ -126,9 +126,20 @@ function getFollowGoods() {
           $.goodsTotalNum = data.totalNum;
           const goodsList = data.data
           if(Array.isArray(goodsList)){
-            goodsList.forEach((item,index)=>{
-                console.log(`商品名称${item.commTitle}`)
+            goodsList.forEach((item)=>{
+                console.log(`商品名称：${item.commTitle}加入写缓存列表成功`)
+                console.log(`商品id：${item.commId}加入写缓存列表成功`)
+                stopGoods = `${stopGoods},${item.commTitle}`
+                stopGoods1 = `${stopGoods1},${item.commId}`
             })
+          }
+          if(stopGoods){
+            $.setdata("jdUnsubscribeStopGoods",stopGoods)
+            console.log(`商品名称写缓存成功`)
+          }
+          if(stopGoods1){
+            $.setdata("jdUnsubscribeStopGoods1",stopGoods1)
+            console.log(`商品id写缓存成功`)
           }
           console.log(`当前已关注【商品】：${$.goodsTotalNum}个\n`);
         } else {
@@ -168,10 +179,25 @@ function getFollowShops() {
     $.get(option, (err, resp, data) => {
       try {
         data = JSON.parse(data.slice(14, -13));
-        console.log('当前关注店铺',data)
-        console.log('当前关注店铺',JSON.stringify(data))
         if (data.iRet === "0") {
           $.shopsTotalNum = data.totalNum;
+          const shopsList = data.data
+          if(Array.isArray(shopsList)){
+            shopsList.forEach((item)=>{
+                console.log(`店铺名称：${item.shopName}加入写缓存列表成功`)
+                console.log(`店铺id：${item.shopId}加入写缓存列表成功`)
+                stopShop = `${stopShop},${item.shopName}`
+                stopShop1 = `${stopShop1},${item.shopId}`
+            })
+          }
+          if(stopShop){
+            $.setdata("jdUnsubscribeStopShop",stopShop)
+            console.log(`店铺名称写缓存成功`)
+          }
+          if(stopShop1){
+            $.setdata("jdUnsubscribeStopShop1",stopShop1)
+            console.log(`店铺id写缓存成功`)
+          }
           console.log(`当前已关注【店铺】：${$.shopsTotalNum}个\n`);
         } else {
           $.shopsTotalNum = 0;
