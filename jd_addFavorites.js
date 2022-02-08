@@ -134,11 +134,11 @@ function getFollowGoods() {
             })
           }
           if(stopGoods){
-            $.setval("jdUnsubscribeStopGoods",stopGoods)
+            $.setdata(stopGoods,"jdUnsubscribeStopGoods")
             console.log(`商品名称写缓存成功`)
           }
           if(stopGoods1){
-            $.setval("jdUnsubscribeStopGoods1",stopGoods1)
+            $.setdata(stopGoods1,"jdUnsubscribeStopGoods1")
             console.log(`商品id写缓存成功`)
           }
           console.log(`当前已关注【商品】：${$.goodsTotalNum}个\n`);
@@ -191,11 +191,11 @@ function getFollowShops() {
             })
           }
           if(stopShop){
-            $.setval("jdUnsubscribeStopShop",stopShop)
+            $.setdata(stopShop, "jdUnsubscribeStopShop")
             console.log(`店铺名称写缓存成功`)
           }
           if(stopShop1){
-            $.setval("jdUnsubscribeStopShop1",stopShop1)
+            $.setdata(stopShop1,"jdUnsubscribeStopShop1")
             console.log(`店铺id写缓存成功`)
           }
           console.log(`当前已关注【店铺】：${$.shopsTotalNum}个\n`);
