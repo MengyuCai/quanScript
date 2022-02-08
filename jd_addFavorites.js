@@ -122,10 +122,14 @@ function getFollowGoods() {
     $.get(option, async (err, resp, data) => {
       try {
         data = JSON.parse(data.slice(14, -13));
-        console.log('当前关注商品',data)
-        console.log('当前关注商品',JSON.stringify(data))
         if (data.iRet === "0") {
           $.goodsTotalNum = data.totalNum;
+          const goodsList = data.data
+          if(Array.isArray(goodsList)){
+            goodsList.forEach((item,index)=>{
+                console.log(`商品名称${item.commTitle}`)
+            })
+          }
           console.log(`当前已关注【商品】：${$.goodsTotalNum}个\n`);
         } else {
           $.goodsTotalNum = 0;
