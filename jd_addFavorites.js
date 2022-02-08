@@ -1,7 +1,7 @@
 /*
 脚本：获取当前关注京东店铺和商品的商品id并写入缓存
  */
-const $ = new Env("取关京东店铺和商品");
+const $ = new Env("京东关注写缓存");
 // Node.js用户请在jdCookie.js处填写京东ck;
 const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 const notify = $.isNode() ? require("./sendNotify") : "";
