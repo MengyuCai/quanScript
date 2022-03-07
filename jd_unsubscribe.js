@@ -29,9 +29,10 @@ let stopGoods = $.getdata('jdUnsubscribeStopGoods') || ''; //遇到此商品不�
 let stopGoods1 = $.getdata('jdUnsubscribeStopGoods1') || ''; // 遇到此商品id不再进行取关，此处内容需去商品详情页查看
 let stopShop = $.getdata('jdUnsubscribeStopShop') || ''; //遇到此店铺不再进行取关，此处内容请尽量从头开始输入店铺名称
 let stopShop1 = $.getdata('jdUnsubscribeStopShop1') || ''; //遇到此店铺id不再进行取关
+let time = $.getdata('jdUnsubscribeTime') || 30; // 取关时间
 // 获取当前时间
 let currentTime = new Date()
-currentTime.setDate(currentTime.getDate()-7);
+currentTime.setDate(currentTime.getDate()-time);
 currentTime.setHours(0, 0, 0)
 
 const JD_API_HOST = 'https://wq.jd.com/fav';
@@ -108,7 +109,7 @@ async function unsubscribeGoods() {
         if (followGoods.totalNum > 0) {
             for (let item of followGoods['data']) {
                 if (item.favTime < currentTime.getTime()) {
-                    console.log('今天之前关注的，不取消关注')
+                    console.log(`${time}天之前关注的，不取消关注`)
                     continue;
                 }
                 if (stopGoods1 && (stopGoods1.replace(/\ufffc|\s*/g, '').indexOf(item.commId) > -1)) {
@@ -215,7 +216,7 @@ async function unsubscribeShops() {
         if (followShops.totalNum > 0) {
             for (let item of followShops.data) {
                 if (item.followDate < currentTime.getTime()) {
-                    console.log('今天之前关注的，不取消关注')
+                    console.log(`${time}天之前关注的，不取消关注`)
                     continue;
                 }
                 if(stopShop1 && (stopShop1.replace(/\s*/g, '').indexOf(item.shopId) > -1)){
